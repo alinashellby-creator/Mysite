@@ -9,7 +9,7 @@ export const WHATSAPP = "77066620888";
 export const WHATSAPP_DISPLAY = "+7 706 662 08 88";
 
 export const BRAND = {
-  name: "BANNY",
+  name: "Perfom.agency",
   tagline: "Перформанс-студия",
   /** Одна строка, которая объясняет направление на первом экране. */
   direction: "Трафик, сайты, продажи и автоматизация",

@@ -111,6 +111,19 @@ body {
     will-change: transform;
   }
 
+  /* Полотно фактуры дыма. Заметно больше экрана: слой ползёт и от
+     собственной анимации, и от прокрутки, и края не должны открываться. */
+  .smoke-sheet {
+    position: absolute;
+    top: -40%;
+    left: -40%;
+    width: 180%;
+    height: 180%;
+    background-repeat: repeat;
+    will-change: transform;
+    pointer-events: none;
+  }
+
   /* ------------------------------------------------------------
      ПОЯВЛЕНИЕ ПО СКРОЛЛУ
 
@@ -268,6 +281,19 @@ body {
   50%  { transform: translate3d(7%, 9%, 0) scale(1.22); }
 }
 
+/* Полотна дыма. Разные траектории и очень разная длительность —
+   так слои не попадают в такт и рисунок клубов не повторяется. */
+@keyframes smoke-a {
+  0%   { transform: translate3d(-4%, 2%, 0) rotate(0deg) scale(1.04); }
+  50%  { transform: translate3d(5%, -4%, 0) rotate(4deg) scale(1.16); }
+  100% { transform: translate3d(-4%, 2%, 0) rotate(0deg) scale(1.04); }
+}
+@keyframes smoke-b {
+  0%   { transform: translate3d(3%, -3%, 0) rotate(0deg) scale(1.12); }
+  50%  { transform: translate3d(-6%, 4%, 0) rotate(-5deg) scale(1.02); }
+  100% { transform: translate3d(3%, -3%, 0) rotate(0deg) scale(1.12); }
+}
+
 /* Лёгкое дыхание фигуры: рендер статичный, и без этого персонаж
    выглядел бы наклейкой, приклеенной к экрану. */
 @keyframes banny-idle {
@@ -280,7 +306,8 @@ body {
    ДОСТУПНОСТЬ
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .fog-blob {
+  .fog-blob,
+  .smoke-sheet {
     animation: none !important;
   }
   *,
