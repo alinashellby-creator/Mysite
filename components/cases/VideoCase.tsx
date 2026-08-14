@@ -110,7 +110,7 @@ export default function VideoCase({
         </button>
 
         <div className="p-6">
-          <h3 className="display text-[1.5rem]">{item.title}</h3>
+          <h3 className="wide text-[1.2rem]">{item.title}</h3>
           <p className="mt-3 text-[0.86rem] leading-relaxed text-ice-100/70">
             {item.description}
           </p>

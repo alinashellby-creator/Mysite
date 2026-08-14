@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Oswald } from "next/font/google";
+import { Inter, JetBrains_Mono, Oswald, Unbounded } from "next/font/google";
 import AmbientLayers from "@/components/background/AmbientLayers";
 import MouseGlow from "@/components/background/MouseGlow";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -11,6 +11,15 @@ const oswald = Oswald({
   subsets: ["latin", "cyrillic"],
   weight: ["500", "600", "700"],
   variable: "--font-oswald",
+  display: "swap",
+});
+
+// Второй акцидентный шрифт. Он широкий, Oswald — узкий: на контрасте
+// ширины заголовки перестают выглядеть набранными одним шрифтом.
+const unbounded = Unbounded({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "600", "800"],
+  variable: "--font-unbounded",
   display: "swap",
 });
 
@@ -43,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${oswald.variable} ${jetbrains.variable} ${inter.variable} antialiased`}
+        className={`${oswald.variable} ${unbounded.variable} ${jetbrains.variable} ${inter.variable} antialiased`}
       >
         {/* Фоновые слои: градиент (0), туман (1), зерно (3). */}
         <AmbientLayers />

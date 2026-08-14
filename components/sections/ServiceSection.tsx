@@ -1,3 +1,4 @@
+import FormatCard from "@/components/FormatCard";
 import { Glass } from "@/components/Glass";
 import { Reveal, RevealItem } from "@/components/Reveal";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -17,10 +18,13 @@ export default function ServiceSection({ service }: { service: Service }) {
         </RevealItem>
 
         <RevealItem>
-          <h2 className="display mt-6 text-[clamp(2.4rem,5.2vw,5rem)]">
-            {service.title}
-            <br />
-            <span className="text-steel-200">{service.titleAccent}</span>
+          <h2 className="mt-6">
+            <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">
+              {service.title}
+            </span>
+            <span className="wide-thin mt-1 block text-[clamp(1.5rem,3vw,2.9rem)] text-steel-200">
+              {service.titleAccent}
+            </span>
           </h2>
         </RevealItem>
 
@@ -36,13 +40,13 @@ export default function ServiceSection({ service }: { service: Service }) {
             <div className="flex flex-wrap gap-x-14 gap-y-5">
               <div>
                 <div className="mono-label">Стоимость</div>
-                <div className="display mt-2 text-[clamp(1.5rem,2.4vw,2.2rem)] text-ice-50">
+                <div className="wide mt-2 text-[clamp(1.15rem,1.9vw,1.7rem)] text-ice-50">
                   {service.price}
                 </div>
               </div>
               <div>
                 <div className="mono-label">Срок</div>
-                <div className="display mt-2 text-[clamp(1.5rem,2.4vw,2.2rem)] text-ice-50">
+                <div className="wide mt-2 text-[clamp(1.15rem,1.9vw,1.7rem)] text-ice-50">
                   {service.term}
                 </div>
               </div>
@@ -77,25 +81,15 @@ export default function ServiceSection({ service }: { service: Service }) {
           {/* Форматы / площадки. */}
           <RevealItem>
             <div className="mono-label">Форматы</div>
-            <div className="mt-5 grid gap-3 xl:grid-cols-2">
-              {service.variants.map((v) => (
-                <Glass
+            <div className="mt-5 grid gap-2.5">
+              {service.variants.map((v, i) => (
+                <FormatCard
                   key={v.name}
-                  cut="sm"
-                  className="p-4 transition-transform duration-300 hover:-translate-y-1"
-                >
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="text-[0.92rem] text-ice-50">{v.name}</span>
-                    {v.meta && (
-                      <span className="tabular whitespace-nowrap text-[0.68rem] text-ice-100/45">
-                        {v.meta}
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-2 text-[0.78rem] leading-snug text-ice-100/55">
-                    {v.note}
-                  </p>
-                </Glass>
+                  index={i + 1}
+                  name={v.name}
+                  note={v.note}
+                  meta={v.meta}
+                />
               ))}
             </div>
           </RevealItem>

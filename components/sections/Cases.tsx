@@ -4,12 +4,11 @@ import { useState } from "react";
 import FunnelBoard from "@/components/cases/FunnelBoard";
 import Lightbox from "@/components/cases/Lightbox";
 import MetricDelta from "@/components/cases/MetricDelta";
-import Sparkline from "@/components/cases/Sparkline";
 import VideoCase from "@/components/cases/VideoCase";
 import { Glass } from "@/components/Glass";
 import { Reveal, RevealItem } from "@/components/Reveal";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { AD_CASES, SALES_METRICS, SITE_CASES, type SiteCase } from "@/content/cases";
+import { SALES_METRICS, SITE_CASES, type SiteCase } from "@/content/cases";
 import { SectionTag } from "./Section";
 
 /**
@@ -30,10 +29,11 @@ export default function Cases() {
             <SectionTag num="05" label="Кейсы" />
           </RevealItem>
           <RevealItem>
-            <h2 className="display mt-6 text-[clamp(2.4rem,5.2vw,5rem)]">
-              Было
-              <br />
-              <span className="text-steel-200">и стало</span>
+            <h2 className="mt-6">
+              <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">Было</span>
+              <span className="wide-thin mt-1 block text-[clamp(1.5rem,3vw,2.9rem)] text-steel-200">
+                и стало
+              </span>
             </h2>
           </RevealItem>
           <RevealItem>
@@ -44,52 +44,8 @@ export default function Cases() {
           </RevealItem>
         </Reveal>
 
-        {/* ── Таргет по отраслям ─────────────────────────────── */}
-        <Reveal className="mt-16">
-          <RevealItem>
-            <div className="mono-label">Таргетированная реклама по направлениям</div>
-          </RevealItem>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {AD_CASES.map((c) => (
-              <RevealItem key={c.id}>
-                <Glass
-                  cut="sm"
-                  className="h-full p-6 transition-transform duration-300 hover:-translate-y-1"
-                >
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="display text-[1.35rem]">{c.industry}</h3>
-                    <span className="tabular text-[0.68rem] text-ice-100/45">
-                      {c.period}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-[0.78rem] text-ice-100/50">{c.note}</p>
-
-                  <div className="mt-5">
-                    <Sparkline points={c.trend} />
-                  </div>
-
-                  <div className="mt-5 space-y-5">
-                    {c.metrics.map((m, i) => (
-                      <MetricDelta key={m.label} metric={m} delay={i * 120} />
-                    ))}
-                  </div>
-                </Glass>
-              </RevealItem>
-            ))}
-          </div>
-
-          <RevealItem>
-            <p className="mt-5 text-[0.72rem] leading-snug text-ice-100/40">
-              Усреднённые показатели по направлению за указанный период. Цифры по
-              вашей нише посчитаю отдельно — они зависят от региона, среднего чека
-              и сезона.
-            </p>
-          </RevealItem>
-        </Reveal>
-
         {/* ── Отдел продаж ───────────────────────────────────── */}
-        <Reveal className="mt-24">
+        <Reveal className="mt-16">
           <RevealItem>
             <div className="mono-label">Отдел продаж после внедрения системы</div>
           </RevealItem>

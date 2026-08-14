@@ -26,12 +26,16 @@ export default function Hero() {
           </RevealItem>
 
           <RevealItem>
-            <h1 className="display mt-7 text-[clamp(2.8rem,6.4vw,6.5rem)]">
-              Приводим клиентов
-              <br />
-              <span className="text-steel-200">и доводим</span>
-              <br />
-              их до оплаты
+            <h1 className="mt-7">
+              <span className="display block text-[clamp(2.8rem,6.4vw,6.5rem)]">
+                Приводим клиентов
+              </span>
+              <span className="wide-thin my-1.5 block text-[clamp(1.5rem,3.1vw,3.1rem)] text-steel-200">
+                и доводим
+              </span>
+              <span className="display block text-[clamp(2.8rem,6.4vw,6.5rem)]">
+                их до оплаты
+              </span>
             </h1>
           </RevealItem>
 
@@ -59,7 +63,7 @@ export default function Hero() {
             <Glass cut="sm" className="mt-14 grid gap-px sm:grid-cols-3">
               {STATS.map((s) => (
                 <div key={s.label} className="p-6">
-                  <div className="tabular text-[2rem] leading-none text-ice-50">
+                  <div className="wide text-[1.5rem] leading-none text-ice-50">
                     {s.value}
                     {s.unit && (
                       <span className="ml-2 text-[0.8rem] tracking-wide text-ice-100/55">

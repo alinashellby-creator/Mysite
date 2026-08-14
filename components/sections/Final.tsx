@@ -26,10 +26,11 @@ export default function Final() {
           </RevealItem>
 
           <RevealItem>
-            <h2 className="display mt-6 text-[clamp(2.6rem,6vw,6rem)]">
-              Начнём
-              <br />
-              <span className="text-steel-200">с разговора</span>
+            <h2 className="mt-6">
+              <span className="display block text-[clamp(2.6rem,6vw,6rem)]">Начнём</span>
+              <span className="wide-thin mt-1 block text-[clamp(1.5rem,3.2vw,3rem)] text-steel-200">
+                с разговора
+              </span>
             </h2>
           </RevealItem>
 
@@ -65,7 +66,7 @@ export default function Final() {
                   <span className="tabular text-[0.7rem] text-ice-100/40">
                     {s.n}
                   </span>
-                  <div className="display mt-2 text-[1.2rem]">{s.t}</div>
+                  <div className="wide mt-2 text-[1rem]">{s.t}</div>
                   <p className="mt-2 text-[0.8rem] leading-snug text-ice-100/55">
                     {s.d}
                   </p>
@@ -80,7 +81,7 @@ export default function Final() {
           <div className="hairline" />
           <div className="mt-7 flex flex-wrap items-center justify-between gap-6">
             <div>
-              <div className="display text-[1.6rem]">{BRAND.name}</div>
+              <div className="wide text-[1.5rem] tracking-[0.06em]">{BRAND.name}</div>
               <p className="mono-label mt-1">{BRAND.tagline}</p>
             </div>
 

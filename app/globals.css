@@ -21,6 +21,7 @@
   --color-glow-mid: #8fb8dc;
 
   --font-display: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-wide: var(--font-unbounded), "Helvetica Neue", sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --font-body: var(--font-inter), system-ui, sans-serif;
 }
@@ -57,48 +58,200 @@ body {
 }
 
 /* ============================================================
-   ПОРЯДОК СЛОЁВ — свечение курсора обязано идти ПОД контентом
-   0 градиент · 1 туман · 2 СВЕЧЕНИЕ · 3 зерно · 5 заяц · 10 контент
+   КОМПОНЕНТНЫЕ КЛАССЫ
+
+   Всё лежит в @layer components намеренно. Tailwind держит утилиты
+   в @layer utilities, а неслоёные правила по каскаду бьют любые
+   слоёные независимо от специфичности. Пока эти классы были вне слоя,
+   position: relative из .glass перебивал утилиту absolute на том же
+   элементе, и блоки разъезжались. Внутри слоя приоритет правильный:
+   утилита всегда сильнее компонентного класса.
    ============================================================ */
-.layer-base    { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.layer-fog     { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-.layer-glow    { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
-.layer-grain   { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
-.layer-mascot  { z-index: 5; }
-.layer-content { position: relative; z-index: 10; }
+@layer components {
+  /* ------------------------------------------------------------
+     ПОРЯДОК СЛОЁВ — свечение курсора обязано идти ПОД контентом
+     0 градиент · 1 туман · 2 СВЕЧЕНИЕ · 3 зерно · 5 заяц · 10 контент
+     ------------------------------------------------------------ */
+  .layer-base    { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .layer-fog     { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .layer-glow    { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+  .layer-grain   { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+  .layer-mascot  { z-index: 5; }
+  .layer-content { position: relative; z-index: 10; }
 
-/* Свечение от курсора. mix-blend-mode: screen смешивает его с туманом
-   и градиентом под ним, но контент сверху остаётся нетронутым. */
-.mouse-glow {
-  background:
-    radial-gradient(
-      320px circle at var(--gx) var(--gy),
-      color-mix(in srgb, var(--color-glow-core) 34%, transparent),
-      transparent 65%
-    ),
-    radial-gradient(
-      760px circle at var(--gx) var(--gy),
-      color-mix(in srgb, var(--color-glow-mid) 22%, transparent),
-      transparent 72%
+  /* Свечение от курсора. mix-blend-mode: screen смешивает его с туманом
+     и градиентом под ним, но контент сверху остаётся нетронутым. */
+  .mouse-glow {
+    background:
+      radial-gradient(
+        320px circle at var(--gx) var(--gy),
+        color-mix(in srgb, var(--color-glow-core) 34%, transparent),
+        transparent 65%
+      ),
+      radial-gradient(
+        760px circle at var(--gx) var(--gy),
+        color-mix(in srgb, var(--color-glow-mid) 22%, transparent),
+        transparent 72%
+      );
+    mix-blend-mode: screen;
+  }
+
+  /* Зернистость поверх фона — как на референсе. */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+  }
+
+  /* Дрейфующие пятна тумана. Только transform — не трогаем layout. */
+  .fog-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(52px);
+    will-change: transform;
+  }
+
+  /* ------------------------------------------------------------
+     ПОЯВЛЕНИЕ ПО СКРОЛЛУ
+
+     Состояние держит одна наследуемая переменная --rv (0 скрыто,
+     1 показано), и opacity/transform/filter считаются от неё. Так
+     свойства задаются ровно в одном правиле — конкурировать
+     в каскаде нечему.
+     ------------------------------------------------------------ */
+  .reveal {
+    --rv: 0;
+  }
+  .reveal-in {
+    --rv: 1;
+  }
+
+  .reveal-item {
+    opacity: var(--rv);
+    transform: translateY(calc((1 - var(--rv)) * 34px));
+    filter: blur(calc((1 - var(--rv)) * 12px));
+    transition:
+      opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Каскад: элементы проявляются друг за другом, а не разом. */
+  .reveal-in .reveal-item:nth-child(1)     { transition-delay: 0.04s; }
+  .reveal-in .reveal-item:nth-child(2)     { transition-delay: 0.11s; }
+  .reveal-in .reveal-item:nth-child(3)     { transition-delay: 0.18s; }
+  .reveal-in .reveal-item:nth-child(4)     { transition-delay: 0.25s; }
+  .reveal-in .reveal-item:nth-child(5)     { transition-delay: 0.32s; }
+  .reveal-in .reveal-item:nth-child(6)     { transition-delay: 0.39s; }
+  .reveal-in .reveal-item:nth-child(7)     { transition-delay: 0.46s; }
+  .reveal-in .reveal-item:nth-child(8)     { transition-delay: 0.53s; }
+  .reveal-in .reveal-item:nth-child(n + 9) { transition-delay: 0.6s; }
+
+  /* ------------------------------------------------------------
+     ЖИДКОЕ СТЕКЛО
+
+     Панели прозрачны, поэтому backdrop-filter захватывает свечение,
+     лежащее под ними — отсюда и берётся эффект «ликвид гласс».
+     ------------------------------------------------------------ */
+  .glass {
+    position: relative;
+    background: color-mix(in srgb, var(--color-ice-50) 7%, transparent);
+    backdrop-filter: blur(13px) saturate(145%);
+    -webkit-backdrop-filter: blur(13px) saturate(145%);
+    border: 1px solid color-mix(in srgb, var(--color-ice-50) 14%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-ice-50) 22%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--color-steel-950) 18%, transparent),
+      0 24px 60px -30px var(--color-steel-950);
+  }
+
+  .glass-strong {
+    background: color-mix(in srgb, var(--color-ice-50) 12%, transparent);
+    backdrop-filter: blur(18px) saturate(155%);
+    -webkit-backdrop-filter: blur(18px) saturate(155%);
+  }
+
+  /* Блик по верхней кромке — стекло ловит свет. */
+  .glass-sheen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--color-ice-50) 16%, transparent) 0%,
+      transparent 42%
     );
-  mix-blend-mode: screen;
+  }
+
+  /* Срезанный угол карточек — прямая цитата из референса. */
+  .cut-corner {
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+  }
+  .cut-corner-lg {
+    clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+  }
+
+  /* ------------------------------------------------------------
+     ТИПОГРАФИКА
+
+     Два акцидентных шрифта в паре: узкий Oswald и широкий Unbounded.
+     На контрасте ширины заголовки перестают выглядеть набранными
+     одним шрифтом.
+     ------------------------------------------------------------ */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.88;
+    letter-spacing: -0.015em;
+  }
+
+  /* Широкий гротеск: вторая строка заголовка, цены, слово на плите. */
+  .wide {
+    font-family: var(--font-wide);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  /* Тонкое широкое начертание — для крупных акцентов, где жир давит. */
+  .wide-thin {
+    font-family: var(--font-wide);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ice-100) 62%, transparent);
+  }
+
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Тонкая разделительная линия, как между блоками на референсе. */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-ice-50) 22%, transparent) 15%,
+      color-mix(in srgb, var(--color-ice-50) 22%, transparent) 85%,
+      transparent
+    );
+  }
 }
 
-/* Зернистость поверх фона — как на референсе. */
-.grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.16;
-  mix-blend-mode: overlay;
-}
-
-/* Дрейфующие пятна тумана. Только transform — не трогаем layout. */
-.fog-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(52px);
-  will-change: transform;
-}
-
+/* ============================================================
+   АНИМАЦИИ
+   ============================================================ */
 @keyframes fog-drift-a {
   0%,
   100% { transform: translate3d(-6%, 0, 0) scale(1); }
@@ -115,144 +268,12 @@ body {
   50%  { transform: translate3d(7%, 9%, 0) scale(1.22); }
 }
 
-/* ============================================================
-   ХОЛОСТАЯ АНИМАЦИЯ ЗАЙЦА
-   Идёт поверх позы: два трансформа складываются, а не спорят.
-   Без неё персонаж между секциями выглядел бы замершим.
-   ============================================================ */
-@keyframes banny-breathe {
+/* Лёгкое дыхание фигуры: рендер статичный, и без этого персонаж
+   выглядел бы наклейкой, приклеенной к экрану. */
+@keyframes banny-idle {
   0%,
-  100% { transform: translateY(0) scale(1); }
-  50%  { transform: translateY(-4px) scale(1.006); }
-}
-@keyframes banny-ear-a {
-  0%,
-  100% { transform: rotate(0deg); }
-  50%  { transform: rotate(4deg); }
-}
-@keyframes banny-ear-b {
-  0%,
-  100% { transform: rotate(0deg); }
-  50%  { transform: rotate(-5deg); }
-}
-
-/* ============================================================
-   ПОЯВЛЕНИЕ ПО СКРОЛЛУ
-   Класс reveal-in вешает IntersectionObserver из компонента Reveal,
-   а сам переход считает CSS — дёшево и предсказуемо.
-   ============================================================ */
-/* Состояние держит одна наследуемая переменная --rv (0 скрыто, 1 показано),
-   и opacity/transform/filter считаются от неё. Так свойства задаются
-   ровно в одном правиле — конкурировать в каскаде нечему. Попытка
-   развести это парой селекторов .reveal-item / .reveal-in .reveal-item
-   не работала: более специфичное правило до элемента не доходило. */
-.reveal {
-  --rv: 0;
-}
-.reveal-in {
-  --rv: 1;
-}
-
-.reveal-item {
-  opacity: var(--rv);
-  transform: translateY(calc((1 - var(--rv)) * 34px));
-  filter: blur(calc((1 - var(--rv)) * 12px));
-  transition:
-    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Каскад: элементы проявляются друг за другом, а не разом. */
-.reveal-in .reveal-item:nth-child(1)  { transition-delay: 0.04s; }
-.reveal-in .reveal-item:nth-child(2)  { transition-delay: 0.11s; }
-.reveal-in .reveal-item:nth-child(3)  { transition-delay: 0.18s; }
-.reveal-in .reveal-item:nth-child(4)  { transition-delay: 0.25s; }
-.reveal-in .reveal-item:nth-child(5)  { transition-delay: 0.32s; }
-.reveal-in .reveal-item:nth-child(6)  { transition-delay: 0.39s; }
-.reveal-in .reveal-item:nth-child(7)  { transition-delay: 0.46s; }
-.reveal-in .reveal-item:nth-child(8)  { transition-delay: 0.53s; }
-.reveal-in .reveal-item:nth-child(n + 9) { transition-delay: 0.6s; }
-
-/* ============================================================
-   ЖИДКОЕ СТЕКЛО
-   Панели прозрачны, поэтому backdrop-filter захватывает свечение,
-   лежащее под ними — отсюда и берётся эффект «ликвид гласс».
-   ============================================================ */
-.glass {
-  position: relative;
-  contain: paint;
-  background: color-mix(in srgb, var(--color-ice-50) 7%, transparent);
-  backdrop-filter: blur(13px) saturate(145%);
-  -webkit-backdrop-filter: blur(13px) saturate(145%);
-  border: 1px solid color-mix(in srgb, var(--color-ice-50) 14%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-ice-50) 22%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--color-steel-950) 18%, transparent),
-    0 24px 60px -30px var(--color-steel-950);
-}
-
-.glass-strong {
-  background: color-mix(in srgb, var(--color-ice-50) 12%, transparent);
-  backdrop-filter: blur(18px) saturate(155%);
-  -webkit-backdrop-filter: blur(18px) saturate(155%);
-}
-
-/* Блик по верхней кромке — стекло ловит свет. */
-.glass-sheen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--color-ice-50) 16%, transparent) 0%,
-    transparent 42%
-  );
-}
-
-/* Срезанный угол карточек — прямая цитата из референса. */
-.cut-corner {
-  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
-}
-.cut-corner-lg {
-  clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
-}
-
-/* ============================================================
-   ТИПОГРАФИКА
-   ============================================================ */
-.display {
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 0.88;
-  letter-spacing: -0.015em;
-}
-
-.mono-label {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-ice-100) 62%, transparent);
-}
-
-.tabular {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Тонкая разделительная линия, как между блоками на референсе. */
-.hairline {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--color-ice-50) 22%, transparent) 15%,
-    color-mix(in srgb, var(--color-ice-50) 22%, transparent) 85%,
-    transparent
-  );
+  100% { translate: 0 0; }
+  50%  { translate: 0 -10px; }
 }
 
 /* ============================================================

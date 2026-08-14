@@ -18,101 +18,13 @@ export type Metric = {
   lowerIsBetter?: boolean;
 };
 
-export type AdCase = {
-  id: string;
-  /** Отрасль без названия компании. */
-  industry: string;
-  /** Короткая подпись под отраслью. */
-  note: string;
-  /** Срок работы. */
-  period: string;
-  metrics: Metric[];
-  /** Точки для мини-графика роста заявок по неделям. */
-  trend: number[];
-};
-
-export const AD_CASES: AdCase[] = [
-  {
-    id: "dental",
-    industry: "Стоматология",
-    note: "Имплантация и ортодонтия",
-    period: "3 месяца",
-    trend: [34, 38, 45, 43, 52, 58, 61, 71],
-    metrics: [
-      { label: "Заявок в месяц", from: 34, to: 71 },
-      { label: "Цена заявки", from: 2400, to: 1150, unit: "₽", lowerIsBetter: true },
-      { label: "Дошли до приёма", from: 21, to: 38, unit: "%" },
-    ],
-  },
-  {
-    id: "visa",
-    industry: "Визовый центр",
-    note: "Туристические и рабочие визы",
-    period: "2 месяца",
-    trend: [58, 64, 72, 81, 95, 104, 118, 126],
-    metrics: [
-      { label: "Заявок в месяц", from: 58, to: 126 },
-      { label: "Цена заявки", from: 1800, to: 890, unit: "₽", lowerIsBetter: true },
-      { label: "Конверсия в оплату", from: 17, to: 31, unit: "%" },
-    ],
-  },
-  {
-    id: "beauty",
-    industry: "Косметология",
-    note: "Аппаратные процедуры и инъекции",
-    period: "4 месяца",
-    trend: [27, 31, 29, 38, 44, 51, 57, 63],
-    metrics: [
-      { label: "Заявок в месяц", from: 27, to: 63 },
-      { label: "Цена заявки", from: 3100, to: 1340, unit: "₽", lowerIsBetter: true },
-      { label: "Повторные визиты", from: 24, to: 46, unit: "%" },
-    ],
-  },
-  {
-    id: "auto",
-    industry: "Автосервис",
-    note: "Кузовной ремонт и детейлинг",
-    period: "3 месяца",
-    trend: [41, 44, 49, 58, 62, 70, 76, 84],
-    metrics: [
-      { label: "Заявок в месяц", from: 41, to: 84 },
-      { label: "Цена заявки", from: 1500, to: 780, unit: "₽", lowerIsBetter: true },
-      { label: "Средний чек", from: 18000, to: 26500, unit: "₽" },
-    ],
-  },
-  {
-    id: "fitness",
-    industry: "Фитнес-клуб",
-    note: "Годовые абонементы",
-    period: "2 месяца",
-    trend: [63, 68, 77, 85, 96, 108, 119, 131],
-    metrics: [
-      { label: "Заявок в месяц", from: 63, to: 131 },
-      { label: "Цена заявки", from: 980, to: 520, unit: "₽", lowerIsBetter: true },
-      { label: "Дошли на пробное", from: 29, to: 51, unit: "%" },
-    ],
-  },
-  {
-    id: "realty",
-    industry: "Недвижимость",
-    note: "Новостройки и переуступки",
-    period: "5 месяцев",
-    trend: [22, 26, 24, 33, 39, 42, 48, 54],
-    metrics: [
-      { label: "Заявок в месяц", from: 22, to: 54 },
-      { label: "Цена заявки", from: 4200, to: 2100, unit: "₽", lowerIsBetter: true },
-      { label: "Дошли до показа", from: 12, to: 27, unit: "%" },
-    ],
-  },
-];
-
 /**
  * Борд развития отдела продаж — что меняется после внедрения системы.
  */
 export const SALES_METRICS: Metric[] = [
   { label: "Конверсия в сделку", from: 11, to: 24, unit: "%" },
   { label: "Дозвон по заявкам", from: 46, to: 79, unit: "%" },
-  { label: "Средний чек", from: 42000, to: 58000, unit: "₽" },
+  { label: "Средний чек", from: 320000, to: 445000, unit: " ₸" },
   { label: "Цикл сделки", from: 21, to: 12, unit: " дн", lowerIsBetter: true },
   { label: "Скорость первого ответа", from: 94, to: 6, unit: " мин", lowerIsBetter: true },
   { label: "Выполнение плана", from: 62, to: 108, unit: "%" },

@@ -1,24 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { NAV } from "@/content/site";
 import { useActiveSection } from "../useActiveSection";
-import {
-  EarFlopped,
-  EarUpright,
-  ForeArm,
-  Head,
-  JOINTS,
-  MascotDefs,
-  Shin,
-  Tail,
-  Thigh,
-  Torso,
-  UpperArm,
-} from "./parts";
 import { POSES } from "./poses";
-import { Joint } from "./rig";
-import WordSlab, { SlabDefs } from "./WordSlab";
 
 // Финальный экран в навигации не нужен, но своя поза у него есть.
 const SECTION_IDS = [...NAV.map((n) => n.id), "final"];
@@ -26,23 +12,20 @@ const SECTION_IDS = [...NAV.map((n) => n.id), "final"];
 /**
  * Заяц-маскот.
  *
- * Живёт на sticky-слое с z-index 5 — то есть НАД свечением курсора (2),
- * но ПОД текстом и стеклянными панелями (10). Свет проходит за ним,
- * как и просили, а контент никогда им не перекрывается.
+ * Живёт на слое z-5: над свечением курсора (2), под текстом и стеклом (10).
+ * Свет проходит за ним, а контент никогда им не перекрывается.
  *
- * Поза выбирается по секции, которая сейчас в середине экрана, и
- * перетекает в следующую CSS-переходом. Сверху идёт холостая анимация
- * дыхания и покачивания, поэтому он не выглядит замершим между секциями.
+ * Все позы отрисованы сразу и лежат стопкой — видна только текущая.
+ * Поэтому смена секции это перекрёстное затухание, без подгрузки картинки
+ * в момент перехода и без мигания пустым местом.
  */
 export default function Banny() {
-  const uid = useId().replace(/[:]/g, "");
   const active = useActiveSection(SECTION_IDS, "hero");
-  const pose = POSES[active] ?? POSES.hero;
-  const headRef = useRef<SVGGElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
-  // Голова и уши чуть доворачиваются к курсору — персонаж «замечает» человека.
+  // Фигура чуть смещается за курсором — персонаж «замечает» человека.
   useEffect(() => {
-    const el = headRef.current;
+    const el = wrapRef.current;
     if (!el) return;
     if (window.matchMedia("(hover: none)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -54,14 +37,14 @@ export default function Banny() {
     let y = 0;
 
     const onMove = (e: PointerEvent) => {
-      tx = (e.clientX / window.innerWidth - 0.5) * 14;
-      ty = (e.clientY / window.innerHeight - 0.5) * 9;
+      tx = (e.clientX / window.innerWidth - 0.5) * 22;
+      ty = (e.clientY / window.innerHeight - 0.5) * 12;
     };
 
     const tick = () => {
-      x += (tx - x) * 0.06;
-      y += (ty - y) * 0.06;
-      el.style.transform = `translate(${x}px, ${y}px)`;
+      x += (tx - x) * 0.05;
+      y += (ty - y) * 0.05;
+      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       raf = requestAnimationFrame(tick);
     };
 
@@ -73,113 +56,72 @@ export default function Banny() {
     };
   }, []);
 
-  const j = pose.joints;
-  const slab = pose.slab && pose.word ? <WordSlab word={pose.word} place={pose.slab} id={uid} /> : null;
+  const current = POSES[active] ?? POSES.hero;
 
   return (
-    <div aria-hidden className="pointer-events-none h-full w-full">
-      <svg
-        viewBox="0 0 470 700"
-        className="h-full w-full"
-        style={{ overflow: "visible" }}
-        preserveAspectRatio="xMidYMax meet"
-      >
-        <MascotDefs id={uid} />
-        <defs>
-          <SlabDefs id={uid} />
-        </defs>
+    <div aria-hidden className="pointer-events-none h-full w-full overflow-hidden">
+      <div ref={wrapRef} className="relative h-full w-full will-change-transform">
+        {SECTION_IDS.map((id) => {
+          const pose = POSES[id];
+          if (!pose) return null;
 
-        {/* Тень под фигурой. */}
-        <ellipse
-          cx="180"
-          cy="670"
-          rx="126"
-          ry="21"
-          fill={`url(#${uid}-shadow)`}
-          style={{ transition: "opacity 900ms ease" }}
-        />
+          return (
+            <div
+              key={id}
+              className="absolute inset-0 flex items-end justify-center"
+              style={{
+                opacity: id === active ? 1 : 0,
+                transition: "opacity 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            >
+              <div
+                className="relative h-full"
+                style={{
+                  height: `${pose.scale * 100}%`,
+                  transform: `translate(${pose.x ?? 0}%, ${pose.y ?? 0}%)`,
+                  transition: "transform 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  animation: "banny-idle 6s ease-in-out infinite",
+                }}
+              >
+                <Image
+                  src={`/mascot/${pose.src}.png`}
+                  alt=""
+                  width={440}
+                  height={1100}
+                  // Первый экран грузится сразу, остальные позы — по мере надобности.
+                  priority={id === "hero"}
+                  className="h-full w-auto object-contain"
+                  style={{
+                    transform: pose.flip ? "scaleX(-1)" : undefined,
+                    filter: "drop-shadow(0 40px 55px rgba(5, 8, 12, 0.5))",
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
 
-        {slab && !pose.slab?.front ? slab : null}
-
-        {/* Корень: общий сдвиг, поворот и масштаб фигуры. */}
-        <Joint ox={JOINTS.root.x} oy={JOINTS.root.y} t={j.root}>
-          <g
+        {/* Плита со словом секции. Одна на всех: меняются только текст
+            и сторона, с которой она стоит. */}
+        {current.word && current.slab && (
+          <div
+            className="absolute z-10"
             style={{
-              animation: "banny-breathe 5.2s ease-in-out infinite",
-              transformBox: "view-box",
-              transformOrigin: `${JOINTS.root.x}px ${JOINTS.root.y}px`,
+              top: `${current.slab.top}%`,
+              left: current.slab.side === "left" ? "1%" : undefined,
+              right: current.slab.side === "right" ? "3%" : undefined,
+              transform: `rotate(${current.slab.rotate ?? 0}deg)`,
+              transition: "top 700ms ease, transform 700ms ease",
             }}
           >
-            {/* Ноги рисуются первыми — торс перекрывает их сверху. */}
-            <Joint ox={JOINTS.hipL.x} oy={JOINTS.hipL.y} t={j.hipL} delay={60}>
-              <Thigh id={uid} side="l" />
-              <Joint ox={JOINTS.kneeL.x} oy={JOINTS.kneeL.y} t={j.kneeL} delay={110}>
-                <Shin id={uid} side="l" />
-              </Joint>
-            </Joint>
-
-            <Joint ox={JOINTS.hipR.x} oy={JOINTS.hipR.y} t={j.hipR} delay={60}>
-              <Thigh id={uid} side="r" />
-              <Joint ox={JOINTS.kneeR.x} oy={JOINTS.kneeR.y} t={j.kneeR} delay={110}>
-                <Shin id={uid} side="r" />
-              </Joint>
-            </Joint>
-
-            <Tail id={uid} />
-
-            <Joint ox={JOINTS.torso.x} oy={JOINTS.torso.y} t={j.torso}>
-              <Torso id={uid} />
-
-              {/* Голова с ушами. Уши позади капюшона. */}
-              <g ref={headRef} style={{ willChange: "transform" }}>
-                <Joint ox={JOINTS.head.x} oy={JOINTS.head.y} t={j.head}>
-                  <Joint ox={JOINTS.earR.x} oy={JOINTS.earR.y} t={j.earR} delay={150}>
-                    <g
-                      style={{
-                        animation: "banny-ear-a 4.1s ease-in-out infinite",
-                        transformBox: "view-box",
-                        transformOrigin: `${JOINTS.earR.x}px ${JOINTS.earR.y}px`,
-                      }}
-                    >
-                      <EarUpright id={uid} />
-                    </g>
-                  </Joint>
-                  <Joint ox={JOINTS.earL.x} oy={JOINTS.earL.y} t={j.earL} delay={190}>
-                    <g
-                      style={{
-                        animation: "banny-ear-b 5.7s ease-in-out infinite",
-                        transformBox: "view-box",
-                        transformOrigin: `${JOINTS.earL.x}px ${JOINTS.earL.y}px`,
-                      }}
-                    >
-                      <EarFlopped id={uid} />
-                    </g>
-                  </Joint>
-                  <Head id={uid} />
-                </Joint>
-              </g>
-            </Joint>
-
-            {/* Обе руки поверх торса: персонаж фронтальный, руки висят по бокам
-                и должны читаться одинаково с обеих сторон. */}
-            <Joint ox={JOINTS.shoulderL.x} oy={JOINTS.shoulderL.y} t={j.shoulderL} delay={40}>
-              <UpperArm id={uid} side="l" />
-              <Joint ox={JOINTS.elbowL.x} oy={JOINTS.elbowL.y} t={j.elbowL} delay={90}>
-                <ForeArm id={uid} side="l" />
-              </Joint>
-            </Joint>
-
-            <Joint ox={JOINTS.shoulderR.x} oy={JOINTS.shoulderR.y} t={j.shoulderR} delay={40}>
-              <UpperArm id={uid} side="r" />
-              <Joint ox={JOINTS.elbowR.x} oy={JOINTS.elbowR.y} t={j.elbowR} delay={90}>
-                <ForeArm id={uid} side="r" />
-              </Joint>
-            </Joint>
-          </g>
-        </Joint>
-
-        {slab && pose.slab?.front ? slab : null}
-      </svg>
+            <div className="glass glass-sheen cut-corner px-7 py-4">
+              <span className="wide block text-[clamp(1.05rem,1.9vw,1.8rem)] uppercase text-ice-50">
+                {current.word}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

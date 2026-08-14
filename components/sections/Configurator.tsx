@@ -20,7 +20,7 @@ type Item = {
   group: string;
   label: string;
   note: string;
-  /** Нижняя и верхняя граница вилки, ₽. */
+  /** Нижняя и верхняя граница вилки, ₸. */
   min: number;
   max: number;
   /** Рабочих дней. */
@@ -75,7 +75,7 @@ export default function Configurator() {
     }
     const list = chosen.map((i) => `— ${i.label}`).join("\n");
     const price = total.max
-      ? `\n\nПримерно: ${fmt(total.min)}–${fmt(total.max)} ₽, срок около ${total.days} дн.`
+      ? `\n\nПримерно: ${fmt(total.min)}–${fmt(total.max)} ₸, срок около ${total.days} дн.`
       : "";
     const custom = hasCustom ? "\n\nПо чат-боту стоимость обсудим отдельно." : "";
     return `Здравствуйте! Нужно:\n${list}${price}${custom}`;
@@ -89,10 +89,11 @@ export default function Configurator() {
         </RevealItem>
 
         <RevealItem>
-          <h2 className="display mt-6 text-[clamp(2.4rem,5.2vw,5rem)]">
-            Соберите
-            <br />
-            <span className="text-steel-200">свою задачу</span>
+          <h2 className="mt-6">
+            <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">Соберите</span>
+            <span className="wide-thin mt-1 block text-[clamp(1.4rem,2.8vw,2.7rem)] text-steel-200">
+              свою задачу
+            </span>
           </h2>
         </RevealItem>
 
@@ -139,7 +140,7 @@ export default function Configurator() {
                           {item.note}
                         </p>
                         <p className="tabular mt-2 text-[0.7rem] text-ice-100/45">
-                          {item.max ? `от ${fmt(item.min)} ₽` : "по согласованию"}
+                          {item.max ? `от ${fmt(item.min)} ₸` : "по согласованию"}
                         </p>
                       </button>
                     );
@@ -156,17 +157,17 @@ export default function Configurator() {
             <div className="flex flex-wrap items-end gap-x-12 gap-y-6">
               <div>
                 <div className="mono-label">Ориентир по бюджету</div>
-                <div className="display mt-2 text-[clamp(1.8rem,3.4vw,3rem)] text-ice-50">
+                <div className="wide mt-2 text-[clamp(1.3rem,2.4vw,2.1rem)] text-ice-50">
                   {chosen.length === 0
                     ? "—"
                     : total.max === 0
                       ? "по согласованию"
-                      : `${fmt(total.min)} — ${fmt(total.max)} ₽`}
+                      : `${fmt(total.min)} — ${fmt(total.max)} ₸`}
                 </div>
               </div>
               <div>
                 <div className="mono-label">Срок</div>
-                <div className="display mt-2 text-[clamp(1.8rem,3.4vw,3rem)] text-ice-50">
+                <div className="wide mt-2 text-[clamp(1.3rem,2.4vw,2.1rem)] text-ice-50">
                   {chosen.length === 0 ? "—" : `~${total.days} дн.`}
                 </div>
               </div>

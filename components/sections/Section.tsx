@@ -13,10 +13,13 @@ import type { ReactNode } from "react";
 export default function Section({
   id,
   children,
+  overlay,
   className = "",
 }: {
   id: string;
   children: ReactNode;
+  /** Слой поверх секции, но под текстом — фоновый мини-дашборд. */
+  overlay?: ReactNode;
   className?: string;
 }) {
   return (
@@ -24,6 +27,7 @@ export default function Section({
       id={id}
       className={`relative flex min-h-screen items-center px-[var(--shell)] py-28 ${className}`}
     >
+      {overlay}
       <div className="w-full max-w-[1600px]">
         <div className="lg:max-w-[54%] xl:max-w-[52%]">{children}</div>
       </div>
