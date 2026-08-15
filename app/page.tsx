@@ -1,4 +1,5 @@
 import Banny from "@/components/mascot/Banny";
+import Nav from "@/components/Nav";
 import Cases from "@/components/sections/Cases";
 import Configurator from "@/components/sections/Configurator";
 import Final from "@/components/sections/Final";
@@ -10,6 +11,8 @@ import { SERVICES } from "@/content/services";
 export default function Page() {
   return (
     <>
+      <Nav />
+
       {/* Заяц на фиксированном слое z-5: над свечением курсора (2),
           под текстом и стеклом (10). Свет проходит за ним, контент — поверх. */}
       {/* На узком экране места для колонки с зайцем нет, поэтому он уходит

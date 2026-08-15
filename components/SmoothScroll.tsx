@@ -2,6 +2,7 @@
 
 import Lenis from "lenis";
 import { useEffect } from "react";
+import { registerLenis } from "./scrollTo";
 
 /**
  * Инерционный скролл + прогресс страницы в CSS-переменной --scroll.
@@ -39,6 +40,10 @@ export default function SmoothScroll() {
       touchMultiplier: 1.6,
     });
 
+    // Отдаём инстанс навигации, чтобы клики по меню ехали тем же
+    // плавным движением, а не прыгали нативным переходом по якорю.
+    registerLenis(lenis);
+
     lenis.on("scroll", ({ progress }: { progress: number }) => {
       setProgress(progress);
     });
@@ -52,6 +57,7 @@ export default function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(raf);
+      registerLenis(null);
       lenis.destroy();
     };
   }, []);

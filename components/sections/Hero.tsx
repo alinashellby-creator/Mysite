@@ -14,7 +14,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-center px-[var(--shell)] py-28"
+      className="relative flex min-h-screen items-center px-[var(--shell)] pb-28 pt-36"
     >
       <div className="w-full max-w-[1600px]">
         <Reveal className="lg:max-w-[56%]">
