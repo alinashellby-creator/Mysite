@@ -35,7 +35,7 @@ export default function Final() {
           </RevealItem>
 
           <RevealItem>
-            <p className="mt-7 max-w-[48ch] leading-relaxed text-ice-100/75">
+            <p className="mt-7 max-w-[48ch] leading-relaxed text-ice-100/88">
               Первый созвон бесплатный. Расскажете задачу — скажу честно, чем
               смогу помочь, а чем нет, и сколько это будет стоить.
             </p>
@@ -51,7 +51,7 @@ export default function Final() {
                 href={waLink("Здравствуйте!")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tabular text-sm text-ice-100/60 transition-colors hover:text-ice-50"
+                className="tabular text-sm text-ice-100/78 transition-colors hover:text-ice-50"
               >
                 {WHATSAPP_DISPLAY}
               </a>
@@ -63,11 +63,11 @@ export default function Final() {
             <div className="mt-16 grid gap-px sm:grid-cols-2 xl:grid-cols-4">
               {STEPS.map((s) => (
                 <div key={s.n} className="border-t border-ice-50/12 pt-5 pr-5">
-                  <span className="tabular text-[0.7rem] text-ice-100/40">
+                  <span className="tabular text-[0.7rem] text-ice-100/60">
                     {s.n}
                   </span>
                   <div className="wide mt-2 text-[1rem]">{s.t}</div>
-                  <p className="mt-2 text-[0.8rem] leading-snug text-ice-100/55">
+                  <p className="mt-2 text-[0.8rem] leading-snug text-ice-100/74">
                     {s.d}
                   </p>
                 </div>
@@ -90,7 +90,7 @@ export default function Final() {
                 <a
                   key={n.id}
                   href={`#${n.id}`}
-                  className="text-[0.82rem] text-ice-100/55 transition-colors hover:text-ice-50"
+                  className="text-[0.82rem] text-ice-100/74 transition-colors hover:text-ice-50"
                 >
                   {n.label}
                 </a>

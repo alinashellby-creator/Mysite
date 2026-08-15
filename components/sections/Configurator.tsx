@@ -98,7 +98,7 @@ export default function Configurator() {
         </RevealItem>
 
         <RevealItem>
-          <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/75">
+          <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/88">
             Отметьте нужное — увидите вилку и срок. Кнопка откроет WhatsApp
             с уже собранным сообщением, останется нажать «отправить».
           </p>
@@ -120,8 +120,8 @@ export default function Configurator() {
                         aria-pressed={on}
                         className={`glass glass-sheen cut-corner p-4 text-left transition-all duration-300 hover:-translate-y-0.5 ${
                           on
-                            ? "!border-ice-50/45 !bg-ice-50/[0.16]"
-                            : "opacity-70 hover:opacity-100"
+                            ? "!border-ice-50/55 !bg-ice-50/[0.14]"
+                            : "hover:!border-ice-50/35"
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -136,10 +136,10 @@ export default function Configurator() {
                             }`}
                           />
                         </div>
-                        <p className="mt-1.5 text-[0.75rem] text-ice-100/55">
+                        <p className="mt-1.5 text-[0.75rem] text-ice-100/74">
                           {item.note}
                         </p>
-                        <p className="tabular mt-2 text-[0.7rem] text-ice-100/45">
+                        <p className="tabular mt-2 text-[0.7rem] text-ice-100/68">
                           {item.max ? `от ${fmt(item.min)} ₸` : "по согласованию"}
                         </p>
                       </button>
@@ -174,13 +174,13 @@ export default function Configurator() {
             </div>
 
             {hasCustom && chosen.length > 1 && (
-              <p className="mt-5 text-[0.75rem] leading-snug text-ice-100/50">
+              <p className="mt-5 text-[0.75rem] leading-snug text-ice-100/70">
                 Часть услуг считается под задачу и в вилку не входит —
                 стоимость по ним назову после разговора.
               </p>
             )}
 
-            <p className="mt-5 text-[0.75rem] leading-snug text-ice-100/45">
+            <p className="mt-5 text-[0.75rem] leading-snug text-ice-100/68">
               Это ориентир, а не смета. Точную цифру назову после короткого
               разговора о задаче.
             </p>

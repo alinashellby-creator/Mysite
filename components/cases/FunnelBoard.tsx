@@ -33,7 +33,7 @@ export default function FunnelBoard() {
     <div ref={ref}>
       <div className="flex items-center justify-between">
         <span className="mono-label">Из 100 заявок доходит до этапа</span>
-        <div className="flex items-center gap-4 text-[0.68rem] text-ice-100/50">
+        <div className="flex items-center gap-4 text-[0.68rem] text-ice-100/70">
           <span className="flex items-center gap-1.5">
             <i className="h-2 w-4 bg-ice-50/20" /> было
           </span>
@@ -48,8 +48,8 @@ export default function FunnelBoard() {
         {SALES_FUNNEL.map((stage, i) => (
           <div key={stage.stage}>
             <div className="flex items-baseline justify-between gap-3">
-              <span className="text-[0.85rem] text-ice-100/80">{stage.stage}</span>
-              <span className="tabular text-[0.75rem] text-ice-100/45">
+              <span className="text-[0.85rem] text-ice-100/90">{stage.stage}</span>
+              <span className="tabular text-[0.75rem] text-ice-100/68">
                 {stage.before} → <span className="text-ice-50">{stage.after}</span>
               </span>
             </div>

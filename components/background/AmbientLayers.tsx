@@ -14,12 +14,35 @@
  * поэтому при скролле дым реально проплывает, а не стоит на месте.
  */
 
-/** Полотно дыма: фрактальный шум, размытый до состояния клубов. */
-function smokeTexture(seed: number, freq: number, blur: number): string {
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'>
-    <filter id='s' x='-20%' y='-20%' width='140%' height='140%'>
+/**
+ * Полотно дыма: фрактальный шум, из которого вырезаны клубы.
+ *
+ * Ключевой момент — feColorMatrix. Он красит всё полотно в один цвет,
+ * а прозрачность берёт из красного канала шума со сдвигом: где шум
+ * темнее порога, там дыры. Получаются рваные клубы на прозрачном фоне,
+ * которые видно при обычном наложении.
+ *
+ * Первая версия рисовала сплошной серый прямоугольник и накладывалась
+ * через soft-light и overlay — на сером фоне это давало почти нулевой
+ * эффект, дыма не было видно вовсе.
+ */
+function smokeTexture(
+  seed: number,
+  freq: number,
+  blur: number,
+  rgb: [number, number, number],
+  /** Порог отсечки: больше — реже и рванее клубы. */
+  cut: number,
+): string {
+  const [r, g, b] = rgb;
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='1000'>
+    <filter id='s' x='-25%' y='-25%' width='150%' height='150%' color-interpolation-filters='sRGB'>
       <feTurbulence type='fractalNoise' baseFrequency='${freq}' numOctaves='5' seed='${seed}'/>
-      <feColorMatrix type='saturate' values='0'/>
+      <feColorMatrix type='matrix' values='
+        0 0 0 0 ${r}
+        0 0 0 0 ${g}
+        0 0 0 0 ${b}
+        1.6 0 0 0 -${cut}'/>
       <feGaussianBlur stdDeviation='${blur}'/>
     </filter>
     <rect width='100%' height='100%' filter='url(#s)'/>
@@ -114,26 +137,37 @@ export default function AmbientLayers() {
         {/* Полотна фактуры. Каждое ползёт со своей скоростью и вдобавок
             смещается от прокрутки — из-за разницы скоростей дым выглядит
             многослойным, а не одной плоской картинкой. */}
+        {/* Тёмные клубы — дают глубину и объём. */}
         <div
           className="smoke-sheet"
           style={{
-            backgroundImage: smokeTexture(3, 0.009, 14),
-            backgroundSize: "150% 150%",
-            opacity: 0.5,
-            mixBlendMode: "soft-light",
-            animation: "smoke-a 78s linear infinite",
-            translate: "0 calc(var(--scroll) * -26vh)",
+            backgroundImage: smokeTexture(3, 0.0055, 10, [0.09, 0.12, 0.15], 0.62),
+            backgroundSize: "140% 140%",
+            opacity: 0.55,
+            animation: "smoke-a 48s linear infinite",
+            translate: "0 calc(var(--scroll) * -30vh)",
           }}
         />
+        {/* Светлые клубы — сама «дымка», её видно первой. */}
         <div
           className="smoke-sheet"
           style={{
-            backgroundImage: smokeTexture(11, 0.016, 9),
-            backgroundSize: "115% 115%",
-            opacity: 0.34,
-            mixBlendMode: "overlay",
-            animation: "smoke-b 112s linear infinite",
-            translate: "0 calc(var(--scroll) * 18vh)",
+            backgroundImage: smokeTexture(11, 0.0085, 8, [0.78, 0.85, 0.93], 0.72),
+            backgroundSize: "110% 110%",
+            opacity: 0.4,
+            animation: "smoke-b 66s linear infinite",
+            translate: "0 calc(var(--scroll) * 22vh)",
+          }}
+        />
+        {/* Третий, самый мелкий и быстрый — рябь поверх крупных клубов. */}
+        <div
+          className="smoke-sheet"
+          style={{
+            backgroundImage: smokeTexture(23, 0.014, 6, [0.85, 0.9, 0.97], 0.8),
+            backgroundSize: "90% 90%",
+            opacity: 0.26,
+            animation: "smoke-c 34s linear infinite",
+            translate: "0 calc(var(--scroll) * -12vh)",
           }}
         />
       </div>

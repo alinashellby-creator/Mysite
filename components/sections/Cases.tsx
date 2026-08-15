@@ -37,7 +37,7 @@ export default function Cases() {
             </h2>
           </RevealItem>
           <RevealItem>
-            <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/75">
+            <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/88">
               Отрасли без названий компаний — показываю, что меняется в цифрах,
               а не чьи логотипы удалось собрать.
             </p>

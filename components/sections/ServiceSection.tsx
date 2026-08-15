@@ -29,7 +29,7 @@ export default function ServiceSection({ service }: { service: Service }) {
         </RevealItem>
 
         <RevealItem>
-          <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/75">
+          <p className="mt-7 max-w-[52ch] leading-relaxed text-ice-100/88">
             {service.lead}
           </p>
         </RevealItem>
@@ -53,7 +53,7 @@ export default function ServiceSection({ service }: { service: Service }) {
             </div>
             {/* Уточнение по цене — отдельной строкой, иначе оно зажимается
                 между колонками и рвётся на короткие огрызки. */}
-            <p className="mt-5 max-w-[52ch] text-[0.8rem] leading-snug text-ice-100/50">
+            <p className="mt-5 max-w-[52ch] text-[0.8rem] leading-snug text-ice-100/70">
               {service.priceNote}
             </p>
           </Glass>
@@ -67,9 +67,9 @@ export default function ServiceSection({ service }: { service: Service }) {
               {service.includes.map((item) => (
                 <li
                   key={item}
-                  className="flex gap-3 text-[0.92rem] leading-snug text-ice-100/80"
+                  className="flex gap-3 text-[0.92rem] leading-snug text-ice-100/90"
                 >
-                  <span className="tabular mt-[3px] text-[0.7rem] text-ice-100/35">
+                  <span className="tabular mt-[3px] text-[0.7rem] text-ice-100/55">
                     ×
                   </span>
                   {item}

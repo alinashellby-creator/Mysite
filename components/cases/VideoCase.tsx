@@ -80,7 +80,7 @@ export default function VideoCase({
           <span className="mono-label">
             [ CASE_{item.num} / {item.type} ]
           </span>
-          <span className="tabular text-[0.68rem] text-ice-100/45">
+          <span className="tabular text-[0.68rem] text-ice-100/68">
             {item.term}
           </span>
         </div>
@@ -111,14 +111,14 @@ export default function VideoCase({
 
         <div className="p-6">
           <h3 className="wide text-[1.2rem]">{item.title}</h3>
-          <p className="mt-3 text-[0.86rem] leading-relaxed text-ice-100/70">
+          <p className="mt-3 text-[0.86rem] leading-relaxed text-ice-100/85">
             {item.description}
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {item.tags.map((t) => (
               <span
                 key={t}
-                className="border border-ice-50/12 px-2.5 py-1 text-[0.68rem] tracking-wide text-ice-100/55"
+                className="border border-ice-50/12 px-2.5 py-1 text-[0.68rem] tracking-wide text-ice-100/74"
               >
                 {t}
               </span>

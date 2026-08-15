@@ -40,7 +40,7 @@ export default function Hero() {
           </RevealItem>
 
           <RevealItem>
-            <p className="mt-8 max-w-[46ch] text-[clamp(1rem,1.15vw,1.15rem)] leading-relaxed text-ice-100/75">
+            <p className="mt-8 max-w-[46ch] text-[clamp(1rem,1.15vw,1.15rem)] leading-relaxed text-ice-100/88">
               {BRAND.direction}. Беру направление целиком: собираю сайт, привожу
               на него трафик, выстраиваю отдел продаж и закрываю рутину ботом —
               чтобы деньги не терялись между этими этапами.
@@ -66,12 +66,12 @@ export default function Hero() {
                   <div className="wide text-[1.5rem] leading-none text-ice-50">
                     {s.value}
                     {s.unit && (
-                      <span className="ml-2 text-[0.8rem] tracking-wide text-ice-100/55">
+                      <span className="ml-2 text-[0.8rem] tracking-wide text-ice-100/74">
                         {s.unit}
                       </span>
                     )}
                   </div>
-                  <div className="mt-3 text-[0.8rem] leading-snug text-ice-100/55">
+                  <div className="mt-3 text-[0.8rem] leading-snug text-ice-100/74">
                     {s.label}
                   </div>
                 </div>
@@ -86,9 +86,9 @@ export default function Hero() {
                 <a
                   key={n.id}
                   href={`#${n.id}`}
-                  className="group flex items-baseline gap-2 text-sm text-ice-100/60 transition-colors hover:text-ice-50"
+                  className="group flex items-baseline gap-2 text-sm text-ice-100/78 transition-colors hover:text-ice-50"
                 >
-                  <span className="tabular text-[0.7rem] text-ice-100/40">
+                  <span className="tabular text-[0.7rem] text-ice-100/60">
                     {n.num}
                   </span>
                   {n.label}

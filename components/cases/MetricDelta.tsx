@@ -83,13 +83,13 @@ export default function MetricDelta({
         </span>
       </div>
 
-      <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-ice-100/40">
+      <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-ice-100/60">
         <span className="tabular line-through">
           {format(from)}
           {unit}
         </span>
         <span>→</span>
-        <span className="tabular text-ice-100/70">
+        <span className="tabular text-ice-100/85">
           {format(to)}
           {unit}
         </span>

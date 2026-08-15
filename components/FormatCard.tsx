@@ -32,20 +32,20 @@ export default function FormatCard({
 
       <div className="relative py-4 pl-6 pr-5">
         <div className="flex items-baseline gap-3">
-          <span className="tabular text-[0.65rem] text-ice-100/35 transition-colors duration-400 group-hover:text-[#cfe6ff]">
+          <span className="tabular text-[0.65rem] text-ice-100/55 transition-colors duration-400 group-hover:text-[#cfe6ff]">
             {String(index).padStart(2, "0")}
           </span>
           <span className="flex-1 text-[0.95rem] leading-tight text-ice-50">
             {name}
           </span>
           {meta && (
-            <span className="tabular whitespace-nowrap text-[0.68rem] text-ice-100/45">
+            <span className="tabular whitespace-nowrap text-[0.68rem] text-ice-100/68">
               {meta}
             </span>
           )}
         </div>
 
-        <p className="mt-2 pl-[1.9rem] text-[0.78rem] leading-snug text-ice-100/55">
+        <p className="mt-2 pl-[1.9rem] text-[0.78rem] leading-snug text-ice-100/74">
           {note}
         </p>
       </div>
