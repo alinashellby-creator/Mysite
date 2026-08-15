@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BRAND, NAV, waLink } from "@/content/site";
+import { NAV, waLink } from "@/content/site";
+import Logo from "./Logo";
 import { scrollToSection } from "./scrollTo";
 import { useActiveSection } from "./useActiveSection";
 
@@ -53,9 +54,10 @@ export default function Nav() {
         <a
           href="#hero"
           onClick={(e) => go(e, "hero")}
-          className="wide shrink-0 text-[0.95rem] tracking-[0.04em] text-ice-50 transition-colors hover:text-lime-400"
+          className="shrink-0 text-ice-50 transition-opacity hover:opacity-80"
+          aria-label="Perfom.agency — в начало"
         >
-          {BRAND.name}
+          <Logo size={30} />
         </a>
 
         {/* Пункты. На мобильном — полоса с прокруткой, маска по краям

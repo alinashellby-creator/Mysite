@@ -1,5 +1,6 @@
 import { Reveal, RevealItem } from "@/components/Reveal";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import Logo from "@/components/Logo";
 import { BRAND, NAV, WHATSAPP_DISPLAY, waLink } from "@/content/site";
 
 /** Как проходит работа — снимает вопрос «а что дальше после оплаты». */
@@ -81,7 +82,7 @@ export default function Final() {
           <div className="hairline" />
           <div className="mt-7 flex flex-wrap items-center justify-between gap-6">
             <div>
-              <div className="wide text-[1.5rem] tracking-[0.06em]">{BRAND.name}</div>
+              <Logo size={40} />
               <p className="mono-label mt-1">{BRAND.tagline}</p>
             </div>
 
