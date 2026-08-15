@@ -91,7 +91,7 @@ export default function Configurator() {
         <RevealItem>
           <h2 className="mt-6">
             <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">Соберите</span>
-            <span className="wide-thin mt-1 block text-[clamp(1.4rem,2.8vw,2.7rem)] text-steel-200">
+            <span className="wide-thin mt-2 block text-[clamp(1.4rem,2.8vw,2.7rem)] text-lime-400">
               свою задачу
             </span>
           </h2>
@@ -120,7 +120,7 @@ export default function Configurator() {
                         aria-pressed={on}
                         className={`glass glass-sheen cut-corner p-4 text-left transition-all duration-300 hover:-translate-y-0.5 ${
                           on
-                            ? "!border-ice-50/55 !bg-ice-50/[0.14]"
+                            ? "!border-lime-400/70 !bg-lime-400/[0.12]"
                             : "hover:!border-ice-50/35"
                         }`}
                       >
@@ -131,7 +131,7 @@ export default function Configurator() {
                           <span
                             className={`mt-0.5 h-3.5 w-3.5 flex-none border transition-colors ${
                               on
-                                ? "border-ice-50 bg-ice-50"
+                                ? "border-lime-400 bg-lime-400"
                                 : "border-ice-50/35"
                             }`}
                           />
@@ -189,7 +189,7 @@ export default function Configurator() {
               href={waLink(message)}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-7 inline-flex items-center gap-3 bg-ice-50 px-7 py-4 text-sm font-medium tracking-wide text-steel-950 transition-transform duration-300 hover:-translate-y-0.5 cut-corner"
+              className="group mt-7 inline-flex items-center gap-3 bg-lime-400 px-7 py-4 text-sm font-medium tracking-wide text-steel-950 transition-all duration-300 hover:-translate-y-0.5 hover:bg-lime-300 cut-corner"
             >
               Отправить расчёт в WhatsApp
               <span className="transition-transform duration-300 group-hover:translate-x-1">

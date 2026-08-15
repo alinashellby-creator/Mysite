@@ -31,7 +31,7 @@ export default function Reviews() {
               <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">
                 Что говорят
               </span>
-              <span className="wide-thin mt-1 block text-[clamp(1.5rem,3vw,2.9rem)] text-steel-200">
+              <span className="wide-thin mt-2 block text-[clamp(1.5rem,3vw,2.9rem)] text-lime-400">
                 после работы
               </span>
             </h2>
@@ -56,7 +56,7 @@ export default function Reviews() {
                 onClick={() => setTab(t.id)}
                 aria-pressed={on}
                 className={`glass cut-corner group relative px-6 py-3 text-[0.9rem] transition-all duration-300 hover:-translate-y-0.5 ${
-                  on ? "!border-ice-50/55 text-ice-50" : "text-ice-100/74"
+                  on ? "!border-lime-400/60 text-lime-400" : "text-ice-100/74"
                 }`}
               >
                 {t.label}
@@ -66,7 +66,7 @@ export default function Reviews() {
                 {/* Подчёркивание активной вкладки. */}
                 <span
                   aria-hidden
-                  className={`absolute bottom-0 left-0 h-px bg-gradient-to-r from-[#cfe6ff] to-transparent transition-all duration-500 ${
+                  className={`absolute bottom-0 left-0 h-px bg-gradient-to-r from-[var(--color-lime-400)] to-transparent transition-all duration-500 ${
                     on ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />

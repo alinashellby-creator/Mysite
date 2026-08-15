@@ -30,7 +30,7 @@ export default function WhatsAppButton({
         "transition-transform duration-300 hover:-translate-y-0.5",
         "cut-corner",
         solid
-          ? "bg-ice-50 text-steel-950"
+          ? "bg-lime-400 text-steel-950 hover:bg-lime-300"
           : "glass glass-sheen text-ice-50",
         className,
       ].join(" ")}

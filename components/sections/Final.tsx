@@ -28,7 +28,7 @@ export default function Final() {
           <RevealItem>
             <h2 className="mt-6">
               <span className="display block text-[clamp(2.6rem,6vw,6rem)]">Начнём</span>
-              <span className="wide-thin mt-1 block text-[clamp(1.5rem,3.2vw,3rem)] text-steel-200">
+              <span className="wide-thin mt-2 block text-[clamp(1.5rem,3.2vw,3rem)] text-lime-400">
                 с разговора
               </span>
             </h2>

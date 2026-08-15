@@ -30,10 +30,12 @@ export default function Hero() {
               <span className="display block text-[clamp(2.8rem,6.4vw,6.5rem)]">
                 Приводим клиентов
               </span>
-              <span className="wide-thin my-1.5 block text-[clamp(1.5rem,3.1vw,3.1rem)] text-steel-200">
+              <span className="wide-thin my-1.5 block text-[clamp(1.5rem,3.1vw,3.1rem)] text-ice-100/70">
                 и доводим
               </span>
-              <span className="display block text-[clamp(2.8rem,6.4vw,6.5rem)]">
+              {/* Лайм на последней строке — там, где смысловой удар,
+                  как на референсе. На средней строке он терялся. */}
+              <span className="display block text-[clamp(2.8rem,6.4vw,6.5rem)] text-lime-400">
                 их до оплаты
               </span>
             </h1>

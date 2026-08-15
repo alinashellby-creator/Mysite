@@ -22,7 +22,7 @@ export default function FormatCard({
       {/* Акцентная грань слева. */}
       <span
         aria-hidden
-        className="absolute left-0 top-0 h-full w-[3px] bg-ice-50/20 transition-all duration-400 group-hover:w-[6px] group-hover:bg-gradient-to-b group-hover:from-[#cfe6ff] group-hover:to-[#7fb0d8]"
+        className="absolute left-0 top-0 h-full w-[3px] bg-ice-50/20 transition-all duration-400 group-hover:w-[6px] group-hover:bg-gradient-to-b group-hover:from-[var(--color-lime-400)] group-hover:to-[var(--color-lime-600)]"
       />
       {/* Блик, пробегающий по карточке. */}
       <span
@@ -32,7 +32,7 @@ export default function FormatCard({
 
       <div className="relative py-4 pl-6 pr-5">
         <div className="flex items-baseline gap-3">
-          <span className="tabular text-[0.65rem] text-ice-100/55 transition-colors duration-400 group-hover:text-[#cfe6ff]">
+          <span className="tabular text-[0.65rem] text-ice-100/55 transition-colors duration-400 group-hover:text-[var(--color-lime-400)]">
             {String(index).padStart(2, "0")}
           </span>
           <span className="flex-1 text-[0.95rem] leading-tight text-ice-50">
@@ -53,7 +53,7 @@ export default function FormatCard({
       {/* Линия по нижней кромке. */}
       <span
         aria-hidden
-        className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-[#cfe6ff] to-transparent transition-all duration-500 group-hover:w-full"
+        className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-[var(--color-lime-400)] to-transparent transition-all duration-500 group-hover:w-full"
       />
     </div>
   );

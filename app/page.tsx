@@ -14,7 +14,7 @@ export default function Page() {
           под текстом и стеклом (10). Свет проходит за ним, контент — поверх. */}
       {/* На узком экране места для колонки с зайцем нет, поэтому он уходит
           в фон и приглушается — силуэт остаётся, текст поверх не страдает. */}
-      <div className="layer-mascot pointer-events-none fixed right-0 top-0 h-screen w-[125vw] max-w-none translate-x-[16%] opacity-[0.16] sm:w-[92vw] sm:translate-x-[8%] sm:opacity-25 md:opacity-30 lg:w-[58vw] lg:max-w-[860px] lg:translate-x-0 lg:opacity-100">
+      <div className="layer-mascot pointer-events-none fixed right-0 top-0 h-screen w-[125vw] max-w-none translate-x-[16%] opacity-[0.10] sm:w-[92vw] sm:translate-x-[8%] sm:opacity-[0.18] md:opacity-25 lg:w-[58vw] lg:max-w-[860px] lg:translate-x-0 lg:opacity-100">
         <Banny />
       </div>
 

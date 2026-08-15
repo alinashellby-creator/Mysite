@@ -31,7 +31,7 @@ export default function Cases() {
           <RevealItem>
             <h2 className="mt-6">
               <span className="display block text-[clamp(2.4rem,5.2vw,5rem)]">Было</span>
-              <span className="wide-thin mt-1 block text-[clamp(1.5rem,3vw,2.9rem)] text-steel-200">
+              <span className="wide-thin mt-2 block text-[clamp(1.5rem,3vw,2.9rem)] text-lime-400">
                 и стало
               </span>
             </h2>

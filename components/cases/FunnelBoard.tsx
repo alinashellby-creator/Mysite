@@ -38,7 +38,7 @@ export default function FunnelBoard() {
             <i className="h-2 w-4 bg-ice-50/20" /> было
           </span>
           <span className="flex items-center gap-1.5">
-            <i className="h-2 w-4 bg-gradient-to-r from-[#7fb0d8] to-[#cfe6ff]" />{" "}
+            <i className="h-2 w-4 bg-gradient-to-r from-[var(--color-lime-600)] to-[var(--color-lime-400)]" />{" "}
             стало
           </span>
         </div>
@@ -66,7 +66,7 @@ export default function FunnelBoard() {
               </div>
               <div className="h-[6px] w-full bg-ice-50/[0.06]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#7fb0d8] to-[#cfe6ff] transition-[width] duration-700 ease-out"
+                  className="h-full bg-gradient-to-r from-[var(--color-lime-600)] to-[var(--color-lime-400)] transition-[width] duration-700 ease-out"
                   style={{
                     width: shown ? `${stage.after}%` : "0%",
                     transitionDelay: `${i * 70 + 160}ms`,

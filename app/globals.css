@@ -17,6 +17,13 @@
   --color-ice-50: #eef4f8;
   --color-frost: #f7fafc;
 
+  --color-lime-600: #a3cc33;
+  --color-lime-400: #c9f24d;
+  --color-lime-300: #dcf87e;
+
+  /* Свечение курсора остаётся холодным намеренно: это свет, а не акцент.
+     Лаймовое затонировало бы зеленью весь экран, включая лицо зайца
+     и скриншоты отзывов. */
   --color-glow-core: #cfe6ff;
   --color-glow-mid: #8fb8dc;
 
@@ -54,7 +61,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-glow-mid);
+  background: var(--color-lime-400);
   color: var(--color-steel-950);
 }
 
@@ -218,7 +225,9 @@ body {
     font-family: var(--font-display);
     font-weight: 700;
     text-transform: uppercase;
-    line-height: 0.88;
+    /* Меньше 0.9 бокс строки становится ниже букв, и следующая строка
+       заезжает сверху — на мобильном это было хорошо видно. */
+    line-height: 0.92;
     letter-spacing: -0.015em;
   }
 

@@ -108,7 +108,7 @@ export default function Banny() {
                     }}
                   >
                     <div className="glass glass-sheen cut-corner px-6 py-3.5">
-                      <span className="wide block whitespace-nowrap text-[clamp(1rem,1.7vw,1.6rem)] uppercase text-ice-50">
+                      <span className="wide block whitespace-nowrap text-[clamp(1rem,1.7vw,1.6rem)] uppercase text-lime-400">
                         {pose.word}
                       </span>
                     </div>

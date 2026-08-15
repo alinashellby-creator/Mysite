@@ -75,7 +75,7 @@ export default function MetricDelta({
         </span>
         <span
           className={`tabular text-[0.7rem] ${
-            improved ? "text-[#8fe0b4]" : "text-[#e9a1a1]"
+            improved ? "text-[var(--color-lime-400)]" : "text-[#e9a1a1]"
           }`}
         >
           {lowerIsBetter ? "−" : "+"}
@@ -99,7 +99,7 @@ export default function MetricDelta({
           показатель, тем длиннее. 100% роста заполняют её целиком. */}
       <div className="mt-3 h-[3px] w-full overflow-hidden bg-ice-50/10">
         <div
-          className="h-full bg-gradient-to-r from-[#7fb0d8] to-[#cfe6ff] transition-[width] duration-1000 ease-out"
+          className="h-full bg-gradient-to-r from-[var(--color-lime-600)] to-[var(--color-lime-400)] transition-[width] duration-1000 ease-out"
           style={{ width: done ? `${Math.min(100, ratio)}%` : "0%" }}
         />
       </div>
