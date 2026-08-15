@@ -3,6 +3,7 @@ import Cases from "@/components/sections/Cases";
 import Configurator from "@/components/sections/Configurator";
 import Final from "@/components/sections/Final";
 import Hero from "@/components/sections/Hero";
+import Reviews from "@/components/sections/Reviews";
 import ServiceSection from "@/components/sections/ServiceSection";
 import { SERVICES } from "@/content/services";
 
@@ -23,6 +24,7 @@ export default function Page() {
           <ServiceSection key={s.id} service={s} />
         ))}
         <Cases />
+        <Reviews />
         <Configurator />
         <Final />
       </main>

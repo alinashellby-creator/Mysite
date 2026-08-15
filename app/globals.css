@@ -253,6 +253,12 @@ body {
     font-variant-numeric: tabular-nums;
   }
 
+  /* Карточка отзыва: заезжает при появлении и при смене вкладки. */
+  .review-card {
+    opacity: 0;
+    animation: review-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
   /* Тонкая разделительная линия, как между блоками на референсе. */
   .hairline {
     height: 1px;
@@ -269,6 +275,21 @@ body {
 /* ============================================================
    АНИМАЦИИ
    ============================================================ */
+
+/* Заезд карточки отзыва. Задержка задаётся инлайном по индексу,
+   поэтому при смене вкладки карточки появляются друг за другом. */
+@keyframes review-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
 @keyframes fog-drift-a {
   0%,
   100% { transform: translate3d(-6%, 0, 0) scale(1); }

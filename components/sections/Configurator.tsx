@@ -85,7 +85,7 @@ export default function Configurator() {
     <Section id="calc">
       <Reveal>
         <RevealItem>
-          <SectionTag num="06" label="Расчёт" />
+          <SectionTag num="07" label="Расчёт" />
         </RevealItem>
 
         <RevealItem>

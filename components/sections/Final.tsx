@@ -20,7 +20,7 @@ export default function Final() {
         <Reveal className="lg:max-w-[54%]">
           <RevealItem>
             <div className="flex items-center gap-4">
-              <span className="mono-label">[ 07 / Дальше ]</span>
+              <span className="mono-label">[ 08 / Дальше ]</span>
               <span className="hairline w-16 flex-none" />
             </div>
           </RevealItem>
